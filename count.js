@@ -15,14 +15,14 @@ export default class Count {
 		this.clear.addEventListener('click', this.clearResult.bind(this));
 		this.back.addEventListener('click', this.removeLast.bind(this));
 	}
-	addOperations(e) {
+	addOperations(e) {//Funkcja dodaje kolejne elementy do obliczeń (liczby, znaki). Pushuje do tablicy liczbe podaną przed znakiem i znak w chwili kliknięcia znaku.
 		if (
 			e.target.textContent === `+` ||
 			e.target.textContent === `*` ||
 			e.target.textContent === `/` ||
 			e.target.textContent === `-`
 		) {
-			if (this.currentNumber === ``) {
+			if (this.currentNumber === ``) { // działa gdy chcesz zmienić znak z dodawania na odejmowanie np.
 				this.operation += e.target.textContent;
 				this.result.textContent = this.operation;
 				this.currentNumber = ``;
@@ -47,13 +47,13 @@ export default class Count {
 			this.result.textContent = this.operation;
 		}
 	}
-	clearResult() {
+	clearResult() { // czyści wszystko
 		this.operation = 0;
 		this.currentNumber = '';
 		this.result.textContent = this.operation;
 		this.numberArray.length = 0;
 	}
-	removeLast() {
+	removeLast() { // usuwa ostatni element w działaniu
 		const newOperation = this.result.textContent.slice(0, -1);
 		if (newOperation === ``) {
 			this.result.textContent = 0;
@@ -62,7 +62,7 @@ export default class Count {
 			this.result.textContent = newOperation;
 		}
 	}
-	firstStep() {
+	firstStep() { // funkcja iteruje po tablicy wykonując najpierw mnożenie i dzielenie. Wykonując to przypisuje wynik do pierwszej liczby biorącej udział w działaniu i usuwa znak oraz drugą liczbę. 
 		for (const el of this.numberArray) {
 			const elIndex = this.numberArray.indexOf(el);
 			if (el === `*`) {
@@ -80,14 +80,14 @@ export default class Count {
 			}
 		}
 	}
-	sumOperation() {
+	sumOperation() {// wykonywanie wszystkich działań odwołując się jednocześnie do wcześniejszej funkcji firstStep.
 		this.numberArray.push(this.currentNumber);
 		this.firstStep();
 		for (let i = 0; i < this.numberArray.length; i++) {
 			switch (this.numberArray[i]) {
 				case `+`:
 					this.numberArray[i + 1] =
-						Number(this.numberArray[i - 1]) + Number(this.numberArray[i + 1]);
+						Number(this.numberArray[i - 1]) + Number(this.numberArray[i + 1]);// wykonuje działanie dodawanie przypisując wynik do drugiej liczby biorącej udziałw dodawaniu
 					break;
 				case `-`:
 					this.numberArray[i + 1] =
